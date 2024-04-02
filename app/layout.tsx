@@ -1,6 +1,7 @@
 import React, { ReactNode } from "react"
 import Providers from "./providers";
 import { Metadata } from "next";
+import PoweredByLogo from "@/modules/ui/PoweredByLogo";
 
 
 export const metadata: Metadata = {
@@ -22,6 +23,7 @@ const RootLayout = async (props: Props) => {
             <body>
                 <Providers>
                     {children}
+                    <PoweredByLogo />
                 </Providers>
             </body>
         </html>

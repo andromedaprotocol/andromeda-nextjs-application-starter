@@ -1,5 +1,5 @@
 import { ConnectWallet } from "@/modules/wallet";
-import { Center, Image, Text, VStack } from "@chakra-ui/react";
+import { Center, Image, Link, Text, VStack } from "@chakra-ui/react";
 import React from "react"
 
 
@@ -18,8 +18,14 @@ const Page = async (props: Props) => {
                 <Text fontSize="3xl" fontWeight='bold'>
                     Andromeda Nextjs Starter Template
                 </Text>
+                <Text>
+                    Click button to connect <b>Andromeda Devnet</b>.
+                </Text>
                 <Text fontWeight='light' mb='6'>
-                    Click button to connect <b>Andromeda Devnet</b>
+                    Learn more about Andromeda&nbsp;
+                    <Link isExternal href="https://docs.andromedaprotocol.io" color='blue' textDecoration="underline">
+                        here
+                    </Link>
                 </Text>
                 <ConnectWallet />
             </VStack>
