@@ -5,7 +5,8 @@ import { KEPLR_AUTOCONNECT_KEY, connectAndromedaClient, initiateKeplr, useAndrom
 import { ApolloProvider } from "@apollo/client";
 import { CacheProvider } from "@chakra-ui/next-js";
 import { ChakraProvider, ColorModeScript } from "@chakra-ui/react";
-import React, { FC, ReactNode, useLayoutEffect } from "react"
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import React, { FC, ReactNode, useLayoutEffect, useMemo } from "react"
 
 interface Props {
     children?: ReactNode;
@@ -13,6 +14,7 @@ interface Props {
 
 const Providers: FC<Props> = (props) => {
     const { children } = props;
+    const queryClient = useMemo(() => new QueryClient(), []);
     const isConnected = useAndromedaStore(state => state.isConnected)
     const isLoading = useAndromedaStore(state => state.isLoading)
     const keplr = useAndromedaStore(state => state.keplr)
@@ -32,12 +34,14 @@ const Providers: FC<Props> = (props) => {
 
     return (
         <ApolloProvider client={apolloClient}>
-            <CacheProvider>
-                <ChakraProvider theme={theme}>
-                    <ColorModeScript storageKey="ANDR_NEXTJS_STARTER" initialColorMode={theme.config.initialColorMode} />
-                    {children}
-                </ChakraProvider>
-            </CacheProvider>
+            <QueryClientProvider client={queryClient}>
+                <CacheProvider>
+                    <ChakraProvider theme={theme}>
+                        <ColorModeScript storageKey="ANDR_NEXTJS_STARTER" initialColorMode={theme.config.initialColorMode} />
+                        {children}
+                    </ChakraProvider>
+                </CacheProvider>
+            </QueryClientProvider>
         </ApolloProvider>
     )
 }

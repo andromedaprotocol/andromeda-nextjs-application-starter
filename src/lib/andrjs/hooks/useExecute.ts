@@ -12,7 +12,7 @@ export default function useExecuteContract(address: string) {
   const client = useAndromedaClient();
 
   const execute = useCallback(
-    async (msg: Msg, fee: Fee, memo?: string, funds?: Coin[]) => {
+    async (msg: Msg, fee: Fee, memo = "Execute Starter Template", funds?: Coin[]) => {
       return client!.execute(address, msg, fee, memo, funds);
     },
     [address, client],
