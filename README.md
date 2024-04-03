@@ -1,10 +1,30 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+<p>&nbsp;</p>
+<p align="center">
+<img src="https://github.com/andromedaprotocol/andromeda-nextjs-application-starter/blob/main/public/Andromeda-Logo.png" width=1000>
+</p>
+
+# About
+The Andromeda Nextjs Application Starter is a base setup for developers to start building wihtout having to worry about the prerequisites. Containing all the key parts needed, it allows you to set up in minutes and start working on your builds. The starter contains the following setups:
+- Keplr integration
+- Andromeda Client (Devnet)
+- GraphQl integration
+- Contract execution hooks 
+
+Using this as a starting template, any developer can create their own nextjs application with custom embeddables that suit their needs.
+
+**Notes**:
+- Uses mainly Chakra UI but developers can install any styling library like tailwind for example.
+- This setup is currently using our Devnet (Testnet for Devs). If you encounter any issues connecting to the gql or chain please contact us for support.
+
+ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app). 
 
 ## Getting Started
 
 First, run the development server:
 
 ```bash
+npm i
+# then 
 npm run dev
 # or
 yarn dev
