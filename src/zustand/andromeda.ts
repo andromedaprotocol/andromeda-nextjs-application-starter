@@ -91,7 +91,9 @@ export const connectAndromedaClient = async () => {
         const accounts = await signer.getAccounts();
 
         // This is needed because there is some ssr error with andromeda client creation
-        const client = state.client || new (await import("@andromedaprotocol/andromeda.js")).default()
+        const client = state.client || new (await import("@andromedaprotocol/andromeda.js")).default({
+            schemaUrl: process.env.NEXT_PUBLIC_SCHEMA_URL,
+        })
         await client.connect(config.chainUrl,
             config.kernelAddress,
             config.addressPrefix,
