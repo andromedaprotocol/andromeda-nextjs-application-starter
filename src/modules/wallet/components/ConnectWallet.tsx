@@ -1,28 +1,35 @@
 "use client";
-import { Button } from "@chakra-ui/react";
 import React, { FC } from "react";
 import Connected from "./Connected";
 import useAndromedaClient from "@/lib/andrjs/hooks/useAndromedaClient";
 import { connectAndromedaClient, useAndromedaStore } from "@/zustand/andromeda";
-import { PlusSquareIcon } from "@chakra-ui/icons";
+import { Button, buttonVariants } from "../components/ui/button"; // Assuming ShadCN's Button component
+import { Plus } from "lucide-react"; // Using Lucide's Plus icon
 
-interface ConnectWalletProps { }
-const ConnectWallet: FC<ConnectWalletProps> = (props) => {
-  const { } = props;
+
+
+interface ConnectWalletProps {}
+
+const ConnectWallet: FC<ConnectWalletProps> = () => {
   const { isLoading } = useAndromedaStore();
   const client = useAndromedaClient();
+
   if (client) {
     return <Connected />;
   }
+
   return (
+    <div className="flex items-center justify-center h-screen">
     <Button
-      leftIcon={<PlusSquareIcon boxSize={5} />}
-      colorScheme="purple"
       onClick={() => connectAndromedaClient()}
-      isLoading={isLoading}
+      disabled={isLoading}
+      className={buttonVariants({ variant: "default" })}  
     >
+      <Plus className="h-5 w-5" />
       Connect Wallet
     </Button>
+    </div>
   );
 };
+
 export default ConnectWallet;

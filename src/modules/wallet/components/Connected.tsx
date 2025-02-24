@@ -1,114 +1,77 @@
+"use client";
+import React, { FC } from "react";
+import { Button } from "../components/ui/button"; // ShadCN Button
+import { Popover, PopoverContent, PopoverTrigger } from "../components/ui/popover"; // ShadCN Popover components
+import { ChevronDown, X, ExternalLink } from "lucide-react"; // Using Lucide icons
 import useQueryChain from "@/lib/graphql/hooks/chain/useChainConfig";
 import { disconnectAndromedaClient, useAndromedaStore } from "@/zustand/andromeda";
-import { ChevronDownIcon, CloseIcon, ExternalLinkIcon } from "@chakra-ui/icons";
-import {
-  Badge,
-  Button,
-  HStack,
-  Image,
-  Input,
-  Popover,
-  PopoverBody,
-  PopoverContent,
-  PopoverTrigger,
-  Text,
-} from "@chakra-ui/react";
-import React, { FC } from "react";
 
-interface ConnectedProps { }
-const Connected: FC<ConnectedProps> = (props) => {
-  const { } = props;
+interface ConnectedProps {}
+
+const Connected: FC<ConnectedProps> = () => {
   const { accounts, chainId } = useAndromedaStore();
   const account = accounts[0];
   const { data: config } = useQueryChain(chainId);
   const address = account?.address ?? "";
   const truncatedAddress = address.slice(0, 6) + "......" + address.slice(address.length - 4);
+
   return (
-    <Popover placement="bottom-end">
-      {({ isOpen }) => (
-        <>
-          <PopoverTrigger>
-            <Button
-              variant="outline"
-              size="lg"
-              borderColor={isOpen ? "primary.600" : "gray.300"}
-            >
-              <HStack mr='2'>
-                <Image src={config?.iconUrls?.sm ?? ""} w="5" />
-                <Text fontSize="md">{truncatedAddress}</Text>
-                <Badge
-                  colorScheme={
-                    config?.chainType === "mainnet" ? "green" : "purple"
-                  }
-                  fontSize={8}
-                  py="1"
-                  rounded="full"
-                >
-                  {config?.chainType}
-                </Badge>
-              </HStack>
-              <ChevronDownIcon boxSize={4} />
-            </Button>
-          </PopoverTrigger>
-          <PopoverContent>
-            <PopoverBody>
-              <HStack mb={3} justifyContent="start">
-                <Image src={config?.iconUrls?.sm ?? ""} w="5" />
-                <Text fontWeight={600} color="gray.700" flex={1}>
-                  {config?.chainName ?? config?.chainId}
-                </Text>
-                <Badge
-                  colorScheme={
-                    config?.chainType === "mainnet" ? "green" : "purple"
-                  }
-                  fontSize={8}
-                  py="1"
-                  rounded="full"
-                >
-                  {config?.chainType}
-                </Badge>
-              </HStack>
-              <Input
-                value={account?.address ?? ""}
-                mb={2}
-                p={2}
-                color="gray.700"
-                fontSize="sm"
-                readOnly
-              />
-              <HStack mb={2}>
-                <Button
-                  as="a"
-                  href={config?.blockExplorerAddressPages[0]?.replaceAll(
-                    "${address}",
-                    account?.address ?? ""
-                  )}
-                  target="_blank"
-                  leftIcon={<ExternalLinkIcon boxSize={4} />}
-                  variant="outline"
-                  fontWeight={500}
-                  color="gray.700"
-                  w="full"
-                  size="sm"
-                >
-                  Explorer
-                </Button>
-                <Button
-                  leftIcon={<CloseIcon boxSize={2} />}
-                  onClick={disconnectAndromedaClient}
-                  fontWeight={500}
-                  colorScheme="red"
-                  w="full"
-                  size="sm"
-                >
-                  Disconnect
-                </Button>
-              </HStack>
-            </PopoverBody>
-          </PopoverContent>
-        </>
-      )}
+    <Popover>
+      <PopoverTrigger>
+        <Button variant="outline" className="flex items-center justify-between border-gray-300 p-2 hover:border-primary-600">
+          <div className="flex items-center space-x-2">
+            <img src={config?.iconUrls?.sm ?? ""} className="w-5" />
+            <span className="text-md">{truncatedAddress}</span>
+            <span className={`badge ${config?.chainType === "mainnet" ? "bg-green-500" : "bg-purple-500"} text-white rounded-full px-2 py-1 text-xs`}>
+              {config?.chainType}
+            </span>
+          </div>
+          <ChevronDown className="w-4 h-4" />
+        </Button>
+      </PopoverTrigger>
+
+      <PopoverContent className="p-4 bg-white shadow-lg rounded-lg w-80">
+        <div className="mb-3 flex items-center space-x-2">
+          <img src={config?.iconUrls?.sm ?? ""} className="w-5" />
+          <span className="font-semibold text-gray-700 flex-1">
+            {config?.chainName ?? config?.chainId}
+          </span>
+          <span className={`badge ${config?.chainType === "mainnet" ? "bg-green-500" : "bg-purple-500"} text-white rounded-full px-2 py-1 text-xs`}>
+            {config?.chainType}
+          </span>
+        </div>
+
+        <input
+          value={account?.address ?? ""}
+          className="w-full p-2 text-sm text-gray-700 bg-gray-100 rounded-md mb-3"
+          readOnly
+        />
+
+        <div className="mb-3 flex flex-col space-y-2">
+        <Button asChild>
+          <a
+            href={config?.blockExplorerAddressPages[0]?.replaceAll(
+              "${address}",
+              account?.address ?? ""
+            )}
+            target="_blank"
+            className="w-full flex items-center gap-2"
+          >
+            <ExternalLink className="w-4 h-4" />
+            Explorer
+          </a>
+        </Button>
+        <Button
+          onClick={disconnectAndromedaClient}
+          className="w-full text-white bg-red-500 hover:bg-red-600 text-sm flex items-center gap-2"
+        >
+          <X className="w-4 h-4" />
+          Disconnect
+        </Button>
+        </div>
+      </PopoverContent>
     </Popover>
   );
 };
+
 export default Connected;

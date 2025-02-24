@@ -1,8 +1,8 @@
 import React, { ReactNode } from "react"
-import Providers from "./providers";
 import { Metadata } from "next";
 import PoweredByLogo from "@/modules/ui/PoweredByLogo";
-
+import { ThemeProvider } from "@/modules/wallet";
+// import "../modules/globals.css";
 
 export const metadata: Metadata = {
     title: {
@@ -21,10 +21,20 @@ const RootLayout = async (props: Props) => {
     return (
         <html lang="en">
             <body>
-                <Providers>
+                <ThemeProvider
+                
+                    attribute="class"
+                    defaultTheme="system"
+                    enableSystem
+                    disableTransitionOnChange
+                >
                     {children}
                     <PoweredByLogo />
-                </Providers>
+                    {/* <Popover>
+                        <PopoverTrigger>Open</PopoverTrigger>
+                        <PopoverContent>Place content for the popover here.</PopoverContent>
+                    </Popover> */}
+                </ThemeProvider>
             </body>
         </html>
     )

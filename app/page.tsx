@@ -1,36 +1,44 @@
-import { ConnectWallet } from "@/modules/wallet";
-import { Center, Image, Link, Text, VStack } from "@chakra-ui/react";
-import React from "react"
+import { ConnectWallet, ModeToggle } from "@/modules/wallet";
+import Image from "next/image";
+import Link from "next/link";
+import React from "react";
 
 
-interface Props {
-}
+interface Props {}
 
 const Page = async (props: Props) => {
-    const { } = props;
     return (
-        <Center minH="100vh">
-            <VStack spacing={3}>
+        <div className="flex min-h-screen items-center justify-center">
+            <div className="flex flex-col items-center space-y-3 text-center">
                 <Image
                     src="/logo.png"
-                    w='6rem'
+                    width={96}
+                    height={96}
+                    alt="Logo"
                 />
-                <Text fontSize="3xl" fontWeight='bold'>
-                    Andromeda Nextjs Starter Template
-                </Text>
-                <Text>
-                    Click button to connect <b>Andromeda Devnet</b>.
-                </Text>
-                <Text fontWeight='light' mb='6'>
+                <h1 className="text-3xl font-bold">
+                    Andromeda Next.js Starter Template
+                </h1>
+                <p>
+                    Click the button to connect <b>Andromeda Devnet</b>.
+                </p>
+                <p className="font-light mb-6">
                     Learn more about Andromeda&nbsp;
-                    <Link isExternal href="https://docs.andromedaprotocol.io" color='blue' textDecoration="underline">
+                    <Link 
+                        href="https://docs.andromedaprotocol.io" 
+                        target="_blank" 
+                        className="text-blue-500 underline"
+                    >
                         here
                     </Link>
-                </Text>
+                </p>
                 <ConnectWallet />
-            </VStack>
-        </Center>
-    )
+                <div className="flex flex-col items-center space-y-3 text-center">
+                    <ModeToggle />
+                </div>
+            </div>
+        </div>
+    );
 }
 
-export default Page
+export default Page;
