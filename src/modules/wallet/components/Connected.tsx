@@ -1,7 +1,7 @@
 "use client";
 import React, { FC } from "react";
-import { Button } from "../components/ui/button"; // ShadCN Button
-import { Popover, PopoverContent, PopoverTrigger } from "../components/ui/popover"; // ShadCN Popover components
+import { Button } from "../../../components/button"; // ShadCN Button
+import { Popover, PopoverContent, PopoverTrigger } from "../../../components/popover"; // ShadCN Popover components
 import { ChevronDown, X, ExternalLink } from "lucide-react"; // Using Lucide icons
 import useQueryChain from "@/lib/graphql/hooks/chain/useChainConfig";
 import { disconnectAndromedaClient, useAndromedaStore } from "@/zustand/andromeda";

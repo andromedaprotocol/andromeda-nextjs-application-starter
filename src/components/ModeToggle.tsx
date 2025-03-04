@@ -11,7 +11,7 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/modules/wallet"
+} from "@/modules/wallet/components/ui"
 
 export function ModeToggle() {
   const { setTheme } = useTheme()

@@ -1,8 +1,7 @@
-import { ConnectWallet, ModeToggle } from "@/modules/wallet";
+import { ConnectWallet, ModeToggle } from "@/modules/wallet/components/ui";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-
 
 interface Props {}
 

@@ -3,7 +3,7 @@ import React, { FC } from "react";
 import Connected from "./Connected";
 import useAndromedaClient from "@/lib/andrjs/hooks/useAndromedaClient";
 import { connectAndromedaClient, useAndromedaStore } from "@/zustand/andromeda";
-import { Button, buttonVariants } from "../components/ui/button"; // Assuming ShadCN's Button component
+import { Button, buttonVariants } from "../../../components/button"; // Assuming ShadCN's Button component
 import { Plus } from "lucide-react"; // Using Lucide's Plus icon
 
 

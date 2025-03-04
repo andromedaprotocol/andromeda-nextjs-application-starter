@@ -2,7 +2,6 @@
 <p align="center">
 <img src="https://github.com/andromedaprotocol/andromeda-nextjs-application-starter/blob/main/public/Andromeda-Logo.png" width=1000>
 </p>
-<div>editing readme file</div>
 # About
 The Andromeda Next.js Application Starter is a base setup for developers to start building without having to worry about the prerequisites. Containing all the key parts needed, it allows you to set up in minutes and start working on your builds. The starter contains the following setups:
 - Keplr integration
