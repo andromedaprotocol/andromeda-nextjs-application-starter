@@ -10,7 +10,9 @@ const Page = async (props: Props) => {
     <div className="flex min-h-screen items-center justify-center">
       <div className="flex flex-col items-center space-y-3 text-center">
         <Image src="/logo.png" width={96} height={96} alt="Logo" />
-        <h1 className="text-3xl font-bold">Andromeda Nextjs Starter</h1>
+        <h1 className="text-3xl font-bold">
+          Andromeda Next.js Starter Template
+        </h1>
         <p>
           Click the button to connect <b>Andromeda Devnet</b>.
         </p>
