@@ -3,6 +3,8 @@ import { Metadata } from "next";
 import PoweredByLogo from "@/modules/ui/PoweredByLogo";
 import Providers from "./providers";
 import { ThemeProvider } from "@/components/ThemeProvider";
+import "../src/styles/globals.css";
+import SplitFunds from "@/components/ui/SplitFunds";
 
 export const metadata: Metadata = {
   title: {
