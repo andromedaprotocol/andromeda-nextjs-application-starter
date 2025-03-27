@@ -1,10 +1,11 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
-  "extends": "@andromeda/tsconfig/base.json",
-
   "compilerOptions": {
     "target": "ES2022",
-    "lib": ["ES2015", "DOM"],
+    "lib": [
+      "ES2015",
+      "DOM"
+    ],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -15,7 +16,7 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "moduleDetection": "force",
-    "jsx": "react-jsx",
+    "jsx": "preserve",
     "incremental": true,
     "noUncheckedIndexedAccess": true,
     "noImplicitReturns": true,
@@ -26,9 +27,27 @@
     "tsBuildInfoFile": ".tsbuildinfo",
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"]
-    }
+      "@/*": [
+        "src/*"
+      ]
+    },
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
   },
-  "include": ["./src/**/*.tsx", "./src/**/*.css", "./src/**/*.ts"],
-  "exclude": ["node_modules", "build", "dist", ".next", ".expo"]
+  "include": [
+    "./src/**/*.css",
+    "./src/**/*.ts",
+    "./src/**/*.tsx",
+    ".next/types/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "build",
+    "dist",
+    ".next",
+    ".expo"
+  ]
 }
