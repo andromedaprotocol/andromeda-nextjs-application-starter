@@ -27,30 +27,9 @@
     "tsBuildInfoFile": ".tsbuildinfo",
     "baseUrl": ".",
     "paths": {
-      "@/*": [
-        "src/*",
-        "app/*"
-      ]
-    },
-    "plugins": [
-      {
-        "name": "next"
-      }
-    ]
+      "@/*": ["src/*"]
+    }
   },
-  "include": [
-    "./src/**/*.css",
-    "./src/**/*.ts",
-    "./src/**/*.tsx",
-    "./app/**/*.ts",
-    "./app/**/*.tsx",
-    ".next/types/**/*.ts"
-  ],
-  "exclude": [
-    "node_modules",
-    "build",
-    "dist",
-    ".next",
-    ".expo"
-  ]
+  "include": ["./src/**/*.tsx", "./src/**/*.css", "./src/**/*.ts"],
+  "exclude": ["node_modules", "build", "dist", ".next", ".expo"]
 }
