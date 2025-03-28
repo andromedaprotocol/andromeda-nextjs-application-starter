@@ -3,6 +3,8 @@ import { Metadata } from "next";
 import PoweredByLogo from "@/modules/ui/PoweredByLogo";
 import Providers from "./providers";
 import { ThemeProvider } from "@/components/ThemeProvider";
+import SplitFunds from "@/components/ui/SplitFunds";
+import "../src/styles/globals.css";
 
 export const metadata: Metadata = {
   title: {
@@ -20,6 +22,7 @@ const RootLayout = async ({ children }: Props) => {
     <html lang="en">
       <body className="bg-background text-foreground min-h-screen flex flex-col">
         <ThemeProvider>
+          <SplitFunds />
           <Providers>
             <main className="flex-grow">{children}</main>
             <PoweredByLogo />

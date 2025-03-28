@@ -9,7 +9,7 @@ export { resetAndromedaStore } from '@/zustand/andromeda'
 
 export { ThemeProvider } from '../../../../components/ThemeProvider'
 export { Button } from '@/components/button'
-export * from '@/components/DropdownMenu/Dropdownmenu'
+export * from '@/components/ui/dropdown-menu'
 
 export { ModeToggle } from '@/components/ModeToggle'
 export { Popover } from '@/components/popover'
