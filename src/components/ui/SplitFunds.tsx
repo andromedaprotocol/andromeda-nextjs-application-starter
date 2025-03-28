@@ -13,10 +13,16 @@ const SplitFunds = () => {
     setRecipients([...recipients, { address: "", amount: "" }]);
   };
 
-  const handleChange = (index: number, field: string, value: string) => {
+  const handleChange = (
+    index: number,
+    field: "address" | "amount",
+    value: string
+  ) => {
     const updatedRecipients = [...recipients];
-    updatedRecipients[index][field as "address" | "amount"] = value;
-    setRecipients(updatedRecipients);
+    if (updatedRecipients[index]) {
+      updatedRecipients[index][field] = value;
+      setRecipients(updatedRecipients);
+    }
   };
 
   const handleSplitFunds = async () => {
