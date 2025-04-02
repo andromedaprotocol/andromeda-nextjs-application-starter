@@ -1,10 +1,9 @@
 "use client";
-import { Button } from "@chakra-ui/react";
 import React, { FC } from "react";
 import Connected from "./Connected";
 import useAndromedaClient from "@/lib/andrjs/hooks/useAndromedaClient";
 import { connectAndromedaClient, useAndromedaStore } from "@/zustand/andromeda";
-import { PlusSquareIcon } from "@chakra-ui/icons";
+import { Button } from "@/components/ui/button";
 
 interface ConnectWalletProps { }
 const ConnectWallet: FC<ConnectWalletProps> = (props) => {
@@ -16,10 +15,8 @@ const ConnectWallet: FC<ConnectWalletProps> = (props) => {
   }
   return (
     <Button
-      leftIcon={<PlusSquareIcon boxSize={5} />}
-      colorScheme="purple"
       onClick={() => connectAndromedaClient()}
-      isLoading={isLoading}
+      disabled={isLoading}
     >
       Connect Wallet
     </Button>
