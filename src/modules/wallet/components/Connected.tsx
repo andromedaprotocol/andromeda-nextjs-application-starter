@@ -1,3 +1,4 @@
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { trpc_react_client } from "@/lib/trpc/client";
@@ -18,41 +19,46 @@ const Connected: FC<ConnectedProps> = (props) => {
     <Popover>
       <PopoverTrigger>
         <Button
-          className={`border border-gray-300 outline-none text-lg`}
+          className={`border border-gray-300 outline-none text`}
+          variant="outline"
         >
-          <div className="flex items-center mr-2">
+          <div className="flex items-center">
             <img src={config?.iconUrls?.sm ?? ""} className="w-5" alt="icon" />
-            <span className="text-md">{truncatedAddress}</span>
-            <span
-              className={`ml-2 text-xs py-1 px-2 rounded-full ${config?.chainType === "mainnet" ? 'bg-green-500' : 'bg-purple-500'}`}
+            <span className="text-md ml-2">{truncatedAddress}</span>
+            <Badge
+              className={`ml-2 text-white ${config?.chainType === "mainnet" ? 'bg-green-500' : 'bg-purple-500'}`}
+              variant={"default"}
             >
               {config?.chainType}
-            </span>
+            </Badge>
           </div>
           <ChevronDownIcon className="w-4 h-4" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="p-4 bg-white shadow-lg rounded-md">
+      <PopoverContent className="p-4 shadow-lg rounded-md mt-1">
         <div className="flex items-center mb-3">
           <img src={config?.iconUrls?.sm ?? ""} className="w-5" alt="icon" />
-          <span className="font-semibold text-gray-700 flex-1">
+          <span className="font-semibold flex-1 ml-2">
             {config?.chainName ?? config?.chainId}
           </span>
-          <span
-            className={`ml-2 text-xs py-1 px-2 rounded-full ${config?.chainType === "mainnet" ? 'bg-green-500' : 'bg-purple-500'}`}
+          <Badge
+            className={`text-white ${config?.chainType === "mainnet" ? 'bg-green-500' : 'bg-purple-500'}`}
+            variant={"default"}
           >
             {config?.chainType}
-          </span>
+          </Badge>
         </div>
         <input
           value={account?.address ?? ""}
-          className="mb-2 p-2 text-sm text-gray-700 bg-gray-100 rounded w-full"
+          className="mb-2 p-2 text-sm rounded w-full"
           readOnly
         />
-        <div className="flex space-x-2 mb-2">
+        <div className="grid grid-cols-2 gap-3 mt-0.5">
           <Button
             asChild
-            className="flex items-center justify-center border border-gray-300 text-gray-700 w-full text-sm"
+            className="flex items-center justify-center border text-sm"
+            size='sm'
+            variant="ghost"
           >
             <a
               href={config?.blockExplorerAddressPages[0]?.replaceAll(
@@ -61,15 +67,17 @@ const Connected: FC<ConnectedProps> = (props) => {
               )}
               target="_blank"
             >
-              <ExternalLinkIcon className="w-4 h-4 mr-2" />
+              <ExternalLinkIcon className="w-4 h-4" />
               Explorer
             </a>
           </Button>
           <Button
             onClick={disconnectAndromedaClient}
-            className="flex items-center justify-center bg-red-500 text-white w-full text-sm"
+            className="flex items-center justify-center  text-sm"
+            size='sm'
+            variant='destructive'
           >
-            <XIcon className="w-2 h-2 mr-2" />
+            <XIcon className="w-2 h-2" />
             Disconnect
           </Button>
         </div>
