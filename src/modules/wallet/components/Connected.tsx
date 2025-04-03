@@ -17,7 +17,7 @@ const Connected: FC<ConnectedProps> = (props) => {
   const truncatedAddress = address.slice(0, 6) + "......" + address.slice(address.length - 4);
   return (
     <Popover>
-      <PopoverTrigger>
+      <PopoverTrigger asChild>
         <Button
           className={`border border-gray-300 outline-none text`}
           variant="outline"
