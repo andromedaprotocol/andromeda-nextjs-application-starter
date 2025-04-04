@@ -26,8 +26,9 @@ const Connected: FC<ConnectedProps> = (props) => {
             <img src={config?.iconUrls?.sm ?? ""} className="w-5" alt="icon" />
             <span className="text-md ml-2">{truncatedAddress}</span>
             <Badge
-              className={`ml-2 text-white ${config?.chainType === "mainnet" ? 'bg-green-500' : 'bg-purple-500'}`}
+              className={`ml-2 text-white uppercase ${config?.chainType === "mainnet" ? 'bg-green-500' : 'bg-purple-500'}`}
               variant={"default"}
+              size={"sm"}
             >
               {config?.chainType}
             </Badge>
@@ -42,8 +43,9 @@ const Connected: FC<ConnectedProps> = (props) => {
             {config?.chainName ?? config?.chainId}
           </span>
           <Badge
-            className={`text-white ${config?.chainType === "mainnet" ? 'bg-green-500' : 'bg-purple-500'}`}
+            className={`text-white uppercase ${config?.chainType === "mainnet" ? 'bg-green-500' : 'bg-purple-500'}`}
             variant={"default"}
+            size={"sm"}
           >
             {config?.chainType}
           </Badge>

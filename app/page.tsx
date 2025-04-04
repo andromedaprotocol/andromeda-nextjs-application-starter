@@ -12,10 +12,9 @@ interface Props {
 
 const Page = (props: Props) => {
     const { chainName } = useAndromedaStore()
-    const { data } = trpc_react_client.chainConfig.byIdentifier.useQuery({
+    const { data, isLoading } = trpc_react_client.chainConfig.byIdentifier.useQuery({
         name: chainName
     })
-    const { } = props;
     return (
         <GridBackground>
             <div className="flex flex-col min-h-screen items-center justify-center gap-4">
@@ -26,9 +25,15 @@ const Page = (props: Props) => {
                 <p className="text-4xl font-bold">
                     Andromeda Nextjs Starter Template
                 </p>
-                <p>
-                    Click button to connect <b>Andromeda {data?.chainType}</b>.
-                </p>
+                {isLoading ? (
+                    <p>
+                        Loading...
+                    </p>
+                ) : (
+                    <p>
+                        Click the button to connect to <b>{data?.displayName}</b>.
+                    </p>
+                )}
                 <p className="font-light">
                     Learn more about Andromeda&nbsp;
                     <a className="text-blue-500 underline" href="https://docs.andromedaprotocol.io" target="_blank" rel="noopener noreferrer">
