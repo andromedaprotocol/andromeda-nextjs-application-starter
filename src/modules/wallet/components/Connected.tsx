@@ -1,9 +1,11 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { CopyButton } from "@/components/ui/copy-button";
+import { Input } from "@/components/ui/input";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { trpc_react_client } from "@/lib/trpc/client";
 import { disconnectAndromedaClient, useAndromedaStore } from "@/zustand/andromeda";
-import { ChevronDownIcon, ExternalLinkIcon, XIcon } from "lucide-react";
+import { ChevronDownIcon, Copy, ExternalLinkIcon, XIcon } from "lucide-react";
 
 import React, { FC } from "react";
 
@@ -19,7 +21,7 @@ const Connected: FC<ConnectedProps> = (props) => {
     <Popover>
       <PopoverTrigger asChild>
         <Button
-          className={`border border-gray-300 outline-none text`}
+          className={`border border-gray-300 outline-none text backdrop-blur-2xl`}
           variant="outline"
         >
           <div className="flex items-center">
@@ -36,7 +38,7 @@ const Connected: FC<ConnectedProps> = (props) => {
           <ChevronDownIcon className="w-4 h-4" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="p-4 shadow-lg rounded-md mt-1">
+      <PopoverContent align="end">
         <div className="flex items-center mb-3">
           <img src={config?.iconUrls?.sm ?? ""} className="w-5" alt="icon" />
           <span className="font-semibold flex-1 ml-2">
@@ -50,11 +52,17 @@ const Connected: FC<ConnectedProps> = (props) => {
             {config?.chainType}
           </Badge>
         </div>
-        <input
-          value={account?.address ?? ""}
-          className="mb-2 p-2 text-sm rounded w-full"
-          readOnly
-        />
+        <div className="flex flex-row items-center mb-2 gap-2">
+          <Input
+            value={account?.address ?? ""}
+            className="p-2 text-sm rounded w-full"
+            readOnly
+            autoFocus={false}
+            // Disable focus on popover open
+            tabIndex={-1}
+          />
+          <CopyButton text={account?.address ?? ""} size="sm" className="self-center" variant="secondary" />
+        </div>
         <div className="grid grid-cols-2 gap-3 mt-0.5">
           <Button
             asChild
