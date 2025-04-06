@@ -5,10 +5,10 @@ import { vfsRouter } from "./vfs";
 import { appContractRouter } from "./app-contract";
 
 export const appRouter = createTRPCRouter({
-    chainConfig: chainConfigRouter,
-    kernel: kernelRouter,
-    vfs: vfsRouter,
-    appContract: appContractRouter,
+  chainConfig: chainConfigRouter,
+  kernel: kernelRouter,
+  vfs: vfsRouter,
+  appContract: appContractRouter,
 });
 
 export type AppRouter = typeof appRouter;

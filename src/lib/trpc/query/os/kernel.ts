@@ -11,7 +11,7 @@ const cache = new LRUCache<string, CacheEntry>({
 export async function queryKernelKeyAddress(
   lcdUrl: string,
   kernelAddress: string,
-  key: KERNEL.KernelKey
+  key: KERNEL.KernelKey,
 ) {
   return cachified({
     key: ["query", "kernel", kernelAddress, "keyAddress", key].join("-"),
@@ -22,7 +22,7 @@ export async function queryKernelKeyAddress(
       const address =
         await lcdClient.queryContractSmart<KERNEL.KeyAddressResponse>(
           kernelAddress,
-          KERNEL.keyAddressMsg(key)
+          KERNEL.keyAddressMsg(key),
         );
       return address;
     },

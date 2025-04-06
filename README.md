@@ -4,19 +4,22 @@
 </p>
 
 # About
+
 The Andromeda Next.js Application Starter is a base setup for developers to start building without having to worry about the prerequisites. Containing all the key parts needed, it allows you to set up in minutes and start working on your builds. The starter contains the following setups:
+
 - Keplr integration
 - Andromeda Client (Devnet)
 - GraphQL integration
-- Contract execution hooks 
+- Contract execution hooks
 
 Using this as a starting template, any developer can create their own nextjs application with custom embeddables that suit their needs.
 
 **Notes**:
+
 - It mainly uses Chakra UI, but developers can install any styling library, such as Tailwind, for example.
 - This setup is currently using our Devnet (Testnet for Devs). If you encounter any issues connecting to the GraphQL or chain, please contact us for support.
 
- This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app). 
+This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
 
@@ -24,7 +27,7 @@ First, run the development server:
 
 ```bash
 npm i
-# then 
+# then
 npm run dev
 # or
 yarn dev

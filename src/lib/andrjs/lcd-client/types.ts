@@ -1,5 +1,3 @@
-
-
 export interface ClientOptions extends RequestInit {
-    data?: Record<string, unknown>;
+  data?: Record<string, unknown>;
 }

@@ -2,20 +2,28 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { CopyButton } from "@/components/ui/copy-button";
 import { Input } from "@/components/ui/input";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { useChainConfig } from "@/lib/andrjs/hooks/useChainConfig";
-import { disconnectAndromedaClient, useAndromedaStore } from "@/zustand/andromeda";
+import {
+  disconnectAndromedaClient,
+  useAndromedaStore,
+} from "@/zustand/andromeda";
 import { ChevronDownIcon, ExternalLinkIcon, XIcon } from "lucide-react";
 
 import React, { FC } from "react";
 
-interface ConnectedProps { }
+interface ConnectedProps {}
 const Connected: FC<ConnectedProps> = (props) => {
   const { accounts, connectedChain } = useAndromedaStore();
   const account = accounts[0];
   const { data: config } = useChainConfig(connectedChain || "");
   const address = account?.address ?? "";
-  const truncatedAddress = address.slice(0, 6) + "......" + address.slice(address.length - 4);
+  const truncatedAddress =
+    address.slice(0, 6) + "......" + address.slice(address.length - 4);
   return (
     <Popover>
       <PopoverTrigger asChild>
@@ -27,7 +35,7 @@ const Connected: FC<ConnectedProps> = (props) => {
             <img src={config?.iconUrls?.sm ?? ""} className="w-5" alt="icon" />
             <span className="text-md ml-2">{truncatedAddress}</span>
             <Badge
-              className={`ml-2 text-white uppercase ${config?.chainType === "mainnet" ? 'bg-green-500' : 'bg-purple-500'}`}
+              className={`ml-2 text-white uppercase ${config?.chainType === "mainnet" ? "bg-green-500" : "bg-purple-500"}`}
               variant={"default"}
               size={"sm"}
             >
@@ -44,7 +52,7 @@ const Connected: FC<ConnectedProps> = (props) => {
             {config?.chainName ?? config?.chainId}
           </span>
           <Badge
-            className={`text-white uppercase ${config?.chainType === "mainnet" ? 'bg-green-500' : 'bg-purple-500'}`}
+            className={`text-white uppercase ${config?.chainType === "mainnet" ? "bg-green-500" : "bg-purple-500"}`}
             variant={"default"}
             size={"sm"}
           >
@@ -60,19 +68,24 @@ const Connected: FC<ConnectedProps> = (props) => {
             // Disable focus on popover open
             tabIndex={-1}
           />
-          <CopyButton text={account?.address ?? ""} size="sm" className="self-center" variant="secondary" />
+          <CopyButton
+            text={account?.address ?? ""}
+            size="sm"
+            className="self-center"
+            variant="secondary"
+          />
         </div>
         <div className="grid grid-cols-2 gap-3 mt-0.5">
           <Button
             asChild
             className="flex items-center justify-center border text-sm"
-            size='sm'
+            size="sm"
             variant="ghost"
           >
             <a
               href={config?.blockExplorerAddressPages[0]?.replaceAll(
                 "${address}",
-                account?.address ?? ""
+                account?.address ?? "",
               )}
               target="_blank"
             >
@@ -83,8 +96,8 @@ const Connected: FC<ConnectedProps> = (props) => {
           <Button
             onClick={disconnectAndromedaClient}
             className="flex items-center justify-center  text-sm"
-            size='sm'
-            variant='destructive'
+            size="sm"
+            variant="destructive"
           >
             <XIcon className="w-2 h-2" />
             Disconnect

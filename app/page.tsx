@@ -1,13 +1,9 @@
+import React from "react";
+import LandingPage from "@/modules/pages/landing";
 
-import React from "react"
-import LandingPage from "@/modules/pages/landing"
-
-interface Props {
-}
+interface Props {}
 const Page = async (_props: Props) => {
-    return (
-        <LandingPage />
-    )
-}
+  return <LandingPage />;
+};
 
-export default Page
+export default Page;

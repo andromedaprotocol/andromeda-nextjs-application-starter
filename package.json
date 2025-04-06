@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint --quiet",
     "export": "next build && next export",
-    "tsc": "tsc"
+    "tsc": "tsc",
+    "format": "prettier --write ."
   },
   "dependencies": {
     "@andromedaprotocol/andromeda.js": "^2.0.0",

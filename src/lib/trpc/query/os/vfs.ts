@@ -16,7 +16,7 @@ const cache = new LRUCache<string, CacheEntry>({
 export async function queryVfsUsername(
   lcdUrl: string,
   vfsAddress: string,
-  address: string
+  address: string,
 ) {
   return cachified({
     key: ["query", "vfs", vfsAddress, "username", address].join("-"),
@@ -27,7 +27,7 @@ export async function queryVfsUsername(
       const username =
         await lcdClient.queryContractSmart<VFS.GetUsernameResponse>(
           vfsAddress,
-          VFS.getUsernameMsg(address)
+          VFS.getUsernameMsg(address),
         );
       return username;
     },
@@ -37,7 +37,7 @@ export async function queryVfsUsername(
 export async function queryVfsResolvePath(
   lcdUrl: string,
   vfsAddress: string,
-  path: string
+  path: string,
 ) {
   return cachified({
     key: ["query", "vfs", vfsAddress, "resolvePath", path].join("-"),
@@ -48,14 +48,18 @@ export async function queryVfsResolvePath(
       const resolvedPath =
         await lcdClient.queryContractSmart<VFS.ResolvePathResponse>(
           vfsAddress,
-          VFS.resolvePathMsg(path)
+          VFS.resolvePathMsg(path),
         );
       return resolvedPath;
     },
   });
 }
 
-export async function queryVfsResolvePathUsingPathOnly(chains: IChainConfig[], path: string, defaultConfig: IChainConfig) {
+export async function queryVfsResolvePathUsingPathOnly(
+  chains: IChainConfig[],
+  path: string,
+  defaultConfig: IChainConfig,
+) {
   // Strip the path to a raw vfs path (no protocols etc)
   const rawPath = VFS.stripPath(path);
 
@@ -64,11 +68,11 @@ export async function queryVfsResolvePathUsingPathOnly(chains: IChainConfig[], p
   const chainIdentifier = VFS.getChainIdentifierFromPath(path);
   const chainConfig = chainIdentifier
     ? chains.find(
-      (c) =>
-        c.chainId === chainIdentifier ||
-        c.name === chainIdentifier ||
-        c.chainName === chainIdentifier,
-    )
+        (c) =>
+          c.chainId === chainIdentifier ||
+          c.name === chainIdentifier ||
+          c.chainName === chainIdentifier,
+      )
     : defaultConfig;
   if (!chainConfig) {
     throw new Error(
