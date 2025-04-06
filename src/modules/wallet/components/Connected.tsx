@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { CopyButton } from "@/components/ui/copy-button";
 import { Input } from "@/components/ui/input";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { trpc_react_client } from "@/lib/trpc/client";
+import { useChainConfig } from "@/lib/andrjs/hooks/useChainConfig";
 import { disconnectAndromedaClient, useAndromedaStore } from "@/zustand/andromeda";
 import { ChevronDownIcon, ExternalLinkIcon, XIcon } from "lucide-react";
 
@@ -11,10 +11,9 @@ import React, { FC } from "react";
 
 interface ConnectedProps { }
 const Connected: FC<ConnectedProps> = (props) => {
-  const { } = props;
-  const { accounts, chainName } = useAndromedaStore();
+  const { accounts, connectedChain } = useAndromedaStore();
   const account = accounts[0];
-  const { data: config } = trpc_react_client.chainConfig.byIdentifier.useQuery({ name: chainName });
+  const { data: config } = useChainConfig(connectedChain || "");
   const address = account?.address ?? "";
   const truncatedAddress = address.slice(0, 6) + "......" + address.slice(address.length - 4);
   return (

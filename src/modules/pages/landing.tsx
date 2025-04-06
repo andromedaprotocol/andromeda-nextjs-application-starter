@@ -1,20 +1,18 @@
 'use client'
 
 import GridBackground from "@/components/GridBackground";
-import { trpc_react_client } from "@/lib/trpc/client";
-import { ConnectWallet } from "@/modules/wallet";
+import { useChainConfig } from "@/lib/andrjs/hooks/useChainConfig";
 import { useAndromedaStore } from "@/zustand/andromeda";
 import React from "react"
+import { ConnectWallet } from "../wallet";
 
 
 interface Props {
 }
 
 const LandingPage: React.FC<Props> = (props) => {
-    const { chainName } = useAndromedaStore()
-    const { data, isLoading } = trpc_react_client.chainConfig.byIdentifier.useQuery({
-        name: chainName
-    })
+    const { connectedChain } = useAndromedaStore()
+    const { data, isLoading } = useChainConfig(connectedChain || "")
     return (
         <GridBackground>
             <div className="flex flex-col min-h-screen items-center justify-center gap-4">

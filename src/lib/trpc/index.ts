@@ -1,9 +1,2 @@
-import { createTRPCRouter } from "./trpc";
-import { chainConfigRouter } from "./chain";
+export * from "./router";
 
-
-export const appRouter = createTRPCRouter({
-    chainConfig: chainConfigRouter
-});
-
-export type AppRouter = typeof appRouter;

@@ -15,10 +15,10 @@ import superJSON from "superjson";
 export const queryClient = new QueryClient();
 
 // Used in server setup
-export const trpc_react_client = createTRPCReact<AppRouter>();
+export const trpcReactClient = createTRPCReact<AppRouter>();
 
 // Used in client side functions where hook is not available
-export const trpc_standalone_client = createTRPCProxyClient<AppRouter>({
+export const trpcStandaloneClient = createTRPCProxyClient<AppRouter>({
     links: [
         loggerLink({
             enabled: (op) =>
@@ -33,7 +33,7 @@ export const trpc_standalone_client = createTRPCProxyClient<AppRouter>({
 });
 
 export const createTRPCClient = () =>
-    trpc_react_client.createClient({
+    trpcReactClient.createClient({
         links: [
             loggerLink({
                 enabled: (op) =>

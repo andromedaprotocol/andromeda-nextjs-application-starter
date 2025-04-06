@@ -21,7 +21,7 @@ const Providers: FC<Props> = (props) => {
         const autoconnect = localStorage.getItem(KEPLR_AUTOCONNECT_KEY);
         if (!isLoading && typeof keplr !== "undefined" && autoconnect === keplr?.mode) {
             if (!isInitialized) {
-                connectAndromedaClient().catch(err => {
+                connectAndromedaClient(process.env.NEXT_PUBLIC_CHAIN_IDENTIFIER || "").catch(err => {
                     console.error(err)
                 });
             }

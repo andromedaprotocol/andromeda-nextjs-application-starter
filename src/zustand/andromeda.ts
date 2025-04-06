@@ -1,6 +1,6 @@
 "use client";
-import { trpc_standalone_client } from "@/lib/trpc/client";
-import AndromedaClient from "@andromedaprotocol/andromeda.js";
+import { trpcStandaloneClient } from "@/lib/trpc/client";
+import createClient, { ChainClient } from "@andromedaprotocol/andromeda.js/dist/clients";
 import { GasPrice } from "@cosmjs/stargate/build/fee";
 import type { AccountData, Keplr } from "@keplr-wallet/types";
 import { create } from "zustand";
@@ -18,9 +18,8 @@ export enum KeplrConnectionStatus {
  */
 
 export interface IAndromedaStore {
-    client?: AndromedaClient;
-    chainId?: string;
-    chainName: string;
+    client?: ChainClient;
+    connectedChain?: string;
     isConnected: boolean;
     keplr: Keplr | undefined;
     keplrStatus: KeplrConnectionStatus
@@ -32,8 +31,7 @@ export interface IAndromedaStore {
 
 export const useAndromedaStore = create<IAndromedaStore>((set, get) => ({
     client: undefined,
-    chainId: undefined,
-    chainName: process.env.NEXT_PUBLIC_CHAIN_NAME,
+    connectedChain: process.env.NEXT_PUBLIC_CHAIN_IDENTIFIER,
     isConnected: false,
     keplr: undefined,
     accounts: [],
@@ -47,26 +45,23 @@ export const resetAndromedaStore = () => {
     useAndromedaStore.setState({
         client: undefined,
         isConnected: false,
-        keplr: undefined,
+        connectedChain: undefined,
         accounts: [],
-        keplrStatus: KeplrConnectionStatus.NotInstalled,
         autoconnect: false,
         isLoading: false,
-        isInitialized: false
     })
 }
 
 export const KEPLR_AUTOCONNECT_KEY = "keplr_autoconnect";
 
-export const connectAndromedaClient = async () => {
+export const connectAndromedaClient = async (chainIdentifier: string) => {
     try {
         window.addEventListener("keplr_keystorechange", keplrKeystoreChange);
 
         const state = useAndromedaStore.getState();
         if (state.isLoading) return;
         useAndromedaStore.setState({ isLoading: true })
-        const chainName = process.env.NEXT_PUBLIC_CHAIN_NAME;
-        const config = await trpc_standalone_client.chainConfig.byIdentifier.query({ name: chainName });
+        const config = await trpcStandaloneClient.chainConfig.byIdentifier.query({ 'chain-identifier': chainIdentifier });
         const keplr = state.keplr;
         if (!keplr) throw new Error("Keplr not instantiated yet");
 
@@ -83,25 +78,21 @@ export const connectAndromedaClient = async () => {
         try {
             await keplr.enable(config.chainId)
         } catch (err) {
-            const keplrConfig = await trpc_standalone_client.chainConfig.keplrConfig.query({ chainId: config.chainId });
+            const keplrConfig = await trpcStandaloneClient.chainConfig.keplrConfig.query({ chainId: config.chainId });
             await keplr.experimentalSuggestChain(keplrConfig);
         }
 
         const signer = await keplr.getOfflineSignerAuto(config.chainId);
         const accounts = await signer.getAccounts();
 
-        // This is needed because there is some ssr error with andromeda client creation
-        const client = state.client || new (await import("@andromedaprotocol/andromeda.js")).default({
-            schemaUrl: process.env.NEXT_PUBLIC_SCHEMA_URL,
-        })
+        const client = createClient(config.addressPrefix);
         await client.connect(config.chainUrl,
-            config.kernelAddress,
-            config.addressPrefix,
             signer as any,
             { gasPrice: GasPrice.fromString(config.defaultFee) });
         localStorage.setItem(KEPLR_AUTOCONNECT_KEY, keplr?.mode ?? "extension");
 
         useAndromedaStore.setState({
+            connectedChain: chainIdentifier,
             accounts,
             isConnected: true,
             keplr: keplr,
@@ -121,17 +112,13 @@ export const connectAndromedaClient = async () => {
 export const disconnectAndromedaClient = () => {
     window.removeEventListener("keplr_keystorechange", keplrKeystoreChange);
     localStorage.removeItem(KEPLR_AUTOCONNECT_KEY);
-    useAndromedaStore.setState({
-        isConnected: false,
-        accounts: [],
-        autoconnect: false
-    })
+    resetAndromedaStore();
 }
 
 const keplrKeystoreChange = async () => {
     const state = useAndromedaStore.getState();
-    if (state.autoconnect) {
-        await connectAndromedaClient()
+    if (state.autoconnect && state.connectedChain) {
+        await connectAndromedaClient(state.connectedChain);
     }
 }
 
