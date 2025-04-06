@@ -1,4 +1,5 @@
 import React, { ReactNode } from "react"
+import "@/styles/globals.css";
 import Providers from "./providers";
 import { Metadata } from "next";
 import PoweredByLogo from "@/modules/ui/PoweredByLogo";
@@ -20,7 +21,7 @@ const RootLayout = async (props: Props) => {
 
     return (
         <html lang="en">
-            <body>
+            <body className="dark">
                 <Providers>
                     {children}
                     <PoweredByLogo />

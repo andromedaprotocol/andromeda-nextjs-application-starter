@@ -1,7 +1,6 @@
 "use client";
-import { apolloClient } from "@/lib/graphql";
+import { trpc_standalone_client } from "@/lib/trpc/client";
 import AndromedaClient from "@andromedaprotocol/andromeda.js";
-import { refetchChainConfigQuery, refetchKeplrConfigQuery, IChainConfigQuery, IKeplrConfigQuery } from "@andromedaprotocol/gql/dist/__generated/react";
 import { GasPrice } from "@cosmjs/stargate/build/fee";
 import type { AccountData, Keplr } from "@keplr-wallet/types";
 import { create } from "zustand";
@@ -20,24 +19,28 @@ export enum KeplrConnectionStatus {
 
 export interface IAndromedaStore {
     client?: AndromedaClient;
-    chainId: string;
+    chainId?: string;
+    chainName: string;
     isConnected: boolean;
     keplr: Keplr | undefined;
     keplrStatus: KeplrConnectionStatus
     accounts: Readonly<AccountData[]>;
     autoconnect: boolean;
     isLoading: boolean;
+    isInitialized: boolean;
 }
 
 export const useAndromedaStore = create<IAndromedaStore>((set, get) => ({
     client: undefined,
-    chainId: process.env.NEXT_PUBLIC_CHAIN_ID,
+    chainId: undefined,
+    chainName: process.env.NEXT_PUBLIC_CHAIN_NAME,
     isConnected: false,
     keplr: undefined,
     accounts: [],
     keplrStatus: KeplrConnectionStatus.NotInstalled,
     autoconnect: false,
-    isLoading: false
+    isLoading: false,
+    isInitialized: false
 }))
 
 export const resetAndromedaStore = () => {
@@ -48,7 +51,8 @@ export const resetAndromedaStore = () => {
         accounts: [],
         keplrStatus: KeplrConnectionStatus.NotInstalled,
         autoconnect: false,
-        isLoading: false
+        isLoading: false,
+        isInitialized: false
     })
 }
 
@@ -61,7 +65,8 @@ export const connectAndromedaClient = async () => {
         const state = useAndromedaStore.getState();
         if (state.isLoading) return;
         useAndromedaStore.setState({ isLoading: true })
-        const chainId = process.env.NEXT_PUBLIC_CHAIN_ID;
+        const chainName = process.env.NEXT_PUBLIC_CHAIN_NAME;
+        const config = await trpc_standalone_client.chainConfig.byIdentifier.query({ name: chainName });
         const keplr = state.keplr;
         if (!keplr) throw new Error("Keplr not instantiated yet");
 
@@ -76,17 +81,12 @@ export const connectAndromedaClient = async () => {
             }
         }
         try {
-            await keplr.enable(chainId)
+            await keplr.enable(config.chainId)
         } catch (err) {
-            const keplrConfig = await apolloClient.query<IKeplrConfigQuery>(refetchKeplrConfigQuery({
-                'identifier': chainId
-            }))
-            await keplr.experimentalSuggestChain(keplrConfig.data.keplrConfigs.config);
+            const keplrConfig = await trpc_standalone_client.chainConfig.keplrConfig.query({ chainId: config.chainId });
+            await keplr.experimentalSuggestChain(keplrConfig);
         }
 
-        const config = (await apolloClient.query<IChainConfigQuery>(refetchChainConfigQuery({
-            'identifier': chainId
-        }))).data.chainConfigs.config
         const signer = await keplr.getOfflineSignerAuto(config.chainId);
         const accounts = await signer.getAccounts();
 
@@ -111,8 +111,10 @@ export const connectAndromedaClient = async () => {
             client: client
         })
     } catch (err) {
-        useAndromedaStore.setState({ isLoading: false })
+        useAndromedaStore.setState({ isLoading: false, autoconnect: false })
         throw err
+    } finally {
+        useAndromedaStore.setState({ isInitialized: true })
     }
 }
 

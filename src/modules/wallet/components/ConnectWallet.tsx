@@ -1,10 +1,10 @@
 "use client";
-import { Button } from "@chakra-ui/react";
 import React, { FC } from "react";
 import Connected from "./Connected";
 import useAndromedaClient from "@/lib/andrjs/hooks/useAndromedaClient";
 import { connectAndromedaClient, useAndromedaStore } from "@/zustand/andromeda";
-import { PlusSquareIcon } from "@chakra-ui/icons";
+import { Button } from "@/components/ui/button";
+import { Loader2, Wallet } from "lucide-react";
 
 interface ConnectWalletProps { }
 const ConnectWallet: FC<ConnectWalletProps> = (props) => {
@@ -16,12 +16,19 @@ const ConnectWallet: FC<ConnectWalletProps> = (props) => {
   }
   return (
     <Button
-      leftIcon={<PlusSquareIcon boxSize={5} />}
-      colorScheme="purple"
       onClick={() => connectAndromedaClient()}
-      isLoading={isLoading}
+      disabled={isLoading}
     >
-      Connect Wallet
+      {isLoading ? (
+        <>
+          <Loader2 className="text-blue-500 w-4 h-4 animate-spin" />
+          Connecting...
+        </>
+      ) : (
+        <>
+          <Wallet className="w-4 h-4 text-blue-500"></Wallet>
+          Connect Wallet</>
+      )}
     </Button>
   );
 };

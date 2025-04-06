@@ -1,35 +1,48 @@
+'use client'
+
+import GridBackground from "@/components/GridBackground";
+import { trpc_react_client } from "@/lib/trpc/client";
 import { ConnectWallet } from "@/modules/wallet";
-import { Center, Image, Link, Text, VStack } from "@chakra-ui/react";
+import { useAndromedaStore } from "@/zustand/andromeda";
 import React from "react"
 
 
 interface Props {
 }
 
-const Page = async (props: Props) => {
-    const { } = props;
+const Page = (props: Props) => {
+    const { chainName } = useAndromedaStore()
+    const { data, isLoading } = trpc_react_client.chainConfig.byIdentifier.useQuery({
+        name: chainName
+    })
     return (
-        <Center minH="100vh">
-            <VStack spacing={3}>
-                <Image
+        <GridBackground>
+            <div className="flex flex-col min-h-screen items-center justify-center gap-4">
+                <img
                     src="/logo.png"
-                    w='6rem'
+                    className="w-30"
                 />
-                <Text fontSize="3xl" fontWeight='bold'>
+                <p className="text-4xl font-bold">
                     Andromeda Nextjs Starter Template
-                </Text>
-                <Text>
-                    Click button to connect <b>Andromeda Devnet</b>.
-                </Text>
-                <Text fontWeight='light' mb='6'>
+                </p>
+                {isLoading ? (
+                    <p>
+                        Loading...
+                    </p>
+                ) : (
+                    <p>
+                        Click the button to connect to <b>{data?.displayName}</b>.
+                    </p>
+                )}
+                <p className="font-light">
                     Learn more about Andromeda&nbsp;
-                    <Link isExternal href="https://docs.andromedaprotocol.io" color='blue' textDecoration="underline">
+                    <a className="text-blue-500 underline" href="https://docs.andromedaprotocol.io" target="_blank" rel="noopener noreferrer">
                         here
-                    </Link>
-                </Text>
+                    </a>
+                </p>
                 <ConnectWallet />
-            </VStack>
-        </Center>
+            </div>
+        </GridBackground>
     )
 }
 
