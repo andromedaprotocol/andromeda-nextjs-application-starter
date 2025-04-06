@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { trpc_react_client } from "@/lib/trpc/client";
 import { disconnectAndromedaClient, useAndromedaStore } from "@/zustand/andromeda";
-import { ChevronDownIcon, Copy, ExternalLinkIcon, XIcon } from "lucide-react";
+import { ChevronDownIcon, ExternalLinkIcon, XIcon } from "lucide-react";
 
 import React, { FC } from "react";
 
