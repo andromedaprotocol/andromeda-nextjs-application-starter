@@ -1,8 +1,8 @@
-import { cn } from "@/lib/utils"
-import { ReactNode } from "react"
+import { cn } from "@/lib/utils";
+import { ReactNode } from "react";
 
 interface GridBackgroundProps {
-  children: ReactNode
+  children: ReactNode;
 }
 
 export default function GridBackground({ children }: GridBackgroundProps) {
@@ -22,6 +22,5 @@ export default function GridBackground({ children }: GridBackgroundProps) {
         {children}
       </div>
     </div>
-  )
+  );
 }
-

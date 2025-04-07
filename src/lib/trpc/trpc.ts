@@ -10,6 +10,7 @@ import { initTRPC } from "@trpc/server";
 import { ZodError } from "zod";
 import superjson from "superjson";
 import { queryAllChainConfigs } from "./query/chain";
+import { appRouter } from "./index";
 
 /**
  * 1. CONTEXT
@@ -36,26 +37,31 @@ export const createTRPCContext = async () => {
  * This is where the trpc api is initialized, connecting the context and
  * transformer
  */
-export const t = initTRPC.context<typeof createTRPCContext>().create({
-  transformer: superjson,
-  allowOutsideOfServer: true,
-  errorFormatter({ shape, error }) {
-    return {
-      ...shape,
-      data: {
-        ...shape.data,
-        zodError:
-          error.cause instanceof ZodError ? error.cause.flatten() : null,
-      },
-    };
-  },
-});
+export const t = initTRPC
+  .context<Awaited<ReturnType<typeof createTRPCContext>>>()
+  .create({
+    transformer: superjson,
+    allowOutsideOfServer: true,
+    errorFormatter({ shape, error }) {
+      return {
+        ...shape,
+        data: {
+          ...shape.data,
+          zodError:
+            error.cause instanceof ZodError ? error.cause.flatten() : null,
+        },
+      };
+    },
+  });
 
 /**
  * Create a server-side caller
  * @see https://trpc.io/docs/server/server-side-calls
  */
-export const createCallerFactory = t.createCallerFactory;
+export const createCaller = async () => {
+  const ctx = await createTRPCContext();
+  return appRouter.createCaller(ctx);
+};
 
 /**
  * 3. ROUTER & PROCEDURE (THE IMPORTANT BIT)

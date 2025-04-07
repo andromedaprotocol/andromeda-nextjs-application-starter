@@ -9,5 +9,5 @@ export default function useAndromedaClient() {
   if (!isConnected || isLoading) {
     return undefined;
   }
-  return client
+  return client;
 }

@@ -6,9 +6,9 @@ import { connectAndromedaClient, useAndromedaStore } from "@/zustand/andromeda";
 import { Button } from "@/components/ui/button";
 import { Loader2, Wallet } from "lucide-react";
 
-interface ConnectWalletProps { }
+interface ConnectWalletProps {}
 const ConnectWallet: FC<ConnectWalletProps> = (props) => {
-  const { } = props;
+  const {} = props;
   const { isLoading } = useAndromedaStore();
   const client = useAndromedaClient();
   if (client) {
@@ -16,7 +16,9 @@ const ConnectWallet: FC<ConnectWalletProps> = (props) => {
   }
   return (
     <Button
-      onClick={() => connectAndromedaClient()}
+      onClick={() =>
+        connectAndromedaClient(process.env.NEXT_PUBLIC_CHAIN_IDENTIFIER || "")
+      }
       disabled={isLoading}
     >
       {isLoading ? (
@@ -27,7 +29,8 @@ const ConnectWallet: FC<ConnectWalletProps> = (props) => {
       ) : (
         <>
           <Wallet className="w-4 h-4 text-blue-500"></Wallet>
-          Connect Wallet</>
+          Connect Wallet
+        </>
       )}
     </Button>
   );
