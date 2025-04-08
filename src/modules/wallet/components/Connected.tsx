@@ -16,7 +16,7 @@ import { ChevronDownIcon, ExternalLinkIcon, XIcon } from "lucide-react";
 
 import React, { FC } from "react";
 
-interface ConnectedProps {}
+interface ConnectedProps { }
 const Connected: FC<ConnectedProps> = (props) => {
   const { accounts, connectedChain } = useAndromedaStore();
   const account = accounts[0];
@@ -47,7 +47,9 @@ const Connected: FC<ConnectedProps> = (props) => {
       </PopoverTrigger>
       <PopoverContent align="end">
         <div className="flex items-center mb-3">
-          <img src={config?.iconUrls?.sm ?? ""} className="w-5" alt="icon" />
+          {config?.iconUrls?.sm && (
+            <img src={config.iconUrls.sm} className="w-5" alt="icon" />
+          )}
           <span className="font-semibold flex-1 ml-2">
             {config?.chainName ?? config?.chainId}
           </span>

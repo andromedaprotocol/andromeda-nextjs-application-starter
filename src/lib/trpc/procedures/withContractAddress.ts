@@ -2,7 +2,7 @@ import { z } from "zod";
 
 import { VFS } from "@/lib/andrjs/ados/vfs";
 import { withChainConfig } from "./withChainConfig";
-import { queryVfsResolvePathUsingPathOnly } from "../query/os/vfs";
+import { queryVfsResolvePathUsingPathOnly } from "../router/os/vfs/query";
 
 /**
  * Middleware to add chain config to the context.

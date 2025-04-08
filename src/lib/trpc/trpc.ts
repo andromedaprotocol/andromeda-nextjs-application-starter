@@ -9,7 +9,7 @@
 import { initTRPC } from "@trpc/server";
 import { ZodError } from "zod";
 import superjson from "superjson";
-import { queryAllChainConfigs } from "./query/chain";
+import { queryAllChainConfigs } from "./router/chain/query";
 import { appRouter } from "./index";
 
 /**
