@@ -12,6 +12,7 @@ import { auctionRouter } from "./ados/auction";
 import { marketplaceRouter } from "./ados/marketplace";
 import { crowdfundRouter } from "./ados/crowdfund";
 import { baseAdoRouter } from "./ados/base";
+import { adodbRouter } from "./os/adodb";
 
 export const appRouter = createTRPCRouter({
   chainConfig: chainConfigRouter,
@@ -19,6 +20,7 @@ export const appRouter = createTRPCRouter({
   os: {
     kernel: kernelRouter,
     vfs: vfsRouter,
+    adodb: adodbRouter,
   },
   ado: {
     base: baseAdoRouter,

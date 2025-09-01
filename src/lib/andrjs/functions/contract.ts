@@ -6,6 +6,7 @@ import {
 } from "@cosmjs/cosmwasm-stargate";
 import { Coin, EncodeObject } from "@cosmjs/proto-signing";
 import { bech32 } from "bech32";
+import { KERNEL } from "../ados/kernel";
 
 /**
  * Instantiate a contract
@@ -82,6 +83,40 @@ export async function queryContract<T = any>(
   const tx = await client.queryClient!.queryContractSmart(contractAddress, msg);
   return tx as T;
 }
+
+/**
+ * Get the code id of an ado
+ * @param client
+ * @param adodb - The address of the ADODB contract. Get it using getSystemAddress with key KERNEL.KernelKey.ADODB
+ * @param ado - The name of ado with version. Example: "crowdfund@2.2.1-b.5"
+ * @returns
+ */
+export const getCodeId = (client: ChainClient, adodb: string, ado: string) => {
+  return queryContract<number>(client, adodb, {
+    code_id: {
+      key: ado,
+    },
+  });
+};
+
+/**
+ * Get the address of a system contract like ADODB, VFS, etc.
+ * @param client
+ * @param kernel
+ * @param key
+ * @returns
+ */
+export const getSystemAddress = (
+  client: ChainClient,
+  kernel: string,
+  key: KERNEL.KernelKey,
+) => {
+  return queryContract<KERNEL.KeyAddressResponse>(
+    client,
+    kernel,
+    KERNEL.keyAddressMsg(key),
+  );
+};
 
 /**
  * Simulate a message
